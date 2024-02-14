@@ -17,22 +17,22 @@ on:
         
 jobs:
 
-  builder:
-    name: 'Builder'
-    runs-on: ubuntu-20.04
-    if: false
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      GH_TOKEN: ${{ secrets.GH_PAT }}
+  # builder:
+  #   name: 'Builder'
+  #   runs-on: ubuntu-20.04
+  #   if: false
+  #   env:
+  #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     GH_TOKEN: ${{ secrets.GH_PAT }}
 
-    steps:
+  #   steps:
 
-      - name: 'Create repo from template'
-        run: |
-          gh repo create Krusty93/${{ inputs.name }} \
-            --private \
-            --disable-wiki \
-            --template Krusty93/${{ inputs.technology }}-template
+  #     - name: 'Create repo from template'
+  #       run: |
+  #         gh repo create Krusty93/${{ inputs.name }} \
+  #           --private \
+  #           --disable-wiki \
+  #           --template Krusty93/${{ inputs.technology }}-template
 
   setup:
     name: 'Repo setup'
