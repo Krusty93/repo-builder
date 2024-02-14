@@ -20,6 +20,7 @@ jobs:
   builder:
     name: 'Builder'
     runs-on: ubuntu-20.04
+    if: false
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       GH_TOKEN: ${{ secrets.GH_PAT }}
@@ -36,13 +37,15 @@ jobs:
   setup:
     name: 'Repo setup'
     runs-on: ubuntu-20.04
-    needs: [builder]
+    # needs: [builder]
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       GH_TOKEN: ${{ secrets.GH_PAT }}
       ARM_USE_OIDC: true
       ARM_USE_AZUREAD: true
       ARM_STORAGE_USE_AZUREAD: true
+      ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
     permissions:
       id-token: write
       contents: read
@@ -56,22 +59,22 @@ jobs:
           path: repo
           token: ${{ secrets.GH_PAT }}
 
-      - name: Replace placeholders
-        working-directory: repo
-        run: |
-          find . -type f -exec sed -i 's/terraform-state-rg/dev-anderag/g; s/<your-environment>/prod/g; s/<your-project>/dotnet/g; s/<your-repo-name>/dotnet-app2/g' {} +
+      # - name: Replace placeholders
+      #   working-directory: repo
+      #   run: |
+      #     find . -type f -exec sed -i 's/terraform-state-rg/dev-anderag/g; s/<your-environment>/prod/g; s/<your-project>/dotnet/g; s/<your-repo-name>/dotnet-app2/g' {} +
 
-      - name: Push changes
-        working-directory: repo
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m "setup repo settings"
-          git push origin main
+      # - name: Push changes
+      #   working-directory: repo
+      #   run: |
+      #     git config user.name github-actions
+      #     git config user.email github-actions@github.com
+      #     git add .
+      #     git commit -m "setup repo settings"
+      #     git push origin main
 
       - name: Azure Login
-        uses: azure/login@cb79c773a3cfa27f31f25eb3f677781210c9ce3d # v1.6.1
+        uses: azure/login
         with:
           client-id: ${{ secrets.ARM_CLIENT_ID }}
           tenant-id: ${{ secrets.ARM_TENANT_ID }}
