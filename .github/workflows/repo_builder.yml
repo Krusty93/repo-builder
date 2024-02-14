@@ -3,14 +3,14 @@ name: GitHub Repo Builder
 on:
   workflow_call:
     inputs:
-      technology:
-        type: choice
-        default: 'dotnet'
-        required: true
-        description: 'Choose your technology stack'
-        options:
-          - dotnet
-          - typescript
+      # technology:
+      #   type: choice
+      #   default: 'dotnet'
+      #   required: true
+      #   description: 'Choose your technology stack'
+      #   options:
+      #     - dotnet
+      #     - typescript
       name:
         type: string
         required: true
