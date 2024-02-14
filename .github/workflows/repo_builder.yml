@@ -36,6 +36,7 @@ jobs:
   setup:
     name: 'Repo setup'
     runs-on: ubuntu-20.04
+    needs: [builder]
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       GH_TOKEN: ${{ secrets.GH_PAT }}
