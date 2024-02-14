@@ -40,6 +40,12 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       GH_TOKEN: ${{ secrets.GH_PAT }}
+      ARM_USE_OIDC: true
+      ARM_USE_AZUREAD: true
+      ARM_STORAGE_USE_AZUREAD: true
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
 
