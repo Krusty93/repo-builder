@@ -32,3 +32,51 @@ jobs:
             --private \
             --disable-wiki \
             --template Krusty93/${{ inputs.technology }}-template
+
+  setup:
+    name: 'Repo setup'
+    runs-on: ubuntu-20.04
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_PAT }}
+
+    steps:
+
+      - uses: actions/checkout@v4
+        name: Checkout new repo
+        with:
+          repository: Krusty93/${{ inputs.name }}
+          path: repo
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Replace placeholders
+        working-directory: repo
+        run: |
+          find . -type f -exec sed -i 's/<your-environment>/prod/g; s/<your-project>/dotnet/g; s/<your-repo-name>/dotnet-app2/g' {} +
+
+      - name: Push changes
+        working-directory: repo
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "setup repo settings"
+          git push origin main
+            
+      - uses: hashicorp/setup-terraform@v3
+        name: Setup Terraform
+
+      - name: Terraform Init
+        working-directory: repo/infra/repository
+        run: |
+          terraform init
+
+      - name: Terraform Plan
+        working-directory: repo/infra/repository
+        run: |
+          terraform plan
+        
+      - name: Terraform Apply
+        working-directory: repo/infra/repository
+        run: |
+          terraform apply
