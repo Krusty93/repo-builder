@@ -37,7 +37,6 @@ jobs:
   setup:
     name: 'Repo setup'
     runs-on: ubuntu-20.04
-    environment: dev
     # needs: [builder]
     env:
       ARM_USE_OIDC: true
