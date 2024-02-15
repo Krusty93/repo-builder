@@ -14,16 +14,16 @@ on:
       name:
         type: string
         required: true
-        
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GH_TOKEN: ${{ secrets.GH_PAT }}
+
 jobs:
 
   # builder:
   #   name: 'Builder'
   #   runs-on: ubuntu-20.04
-  #   if: false
-  #   env:
-  #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #     GH_TOKEN: ${{ secrets.GH_PAT }}
 
   #   steps:
 
@@ -40,13 +40,11 @@ jobs:
     environment: dev
     # needs: [builder]
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      GH_TOKEN: ${{ secrets.GH_PAT }}
       ARM_USE_OIDC: true
       ARM_USE_AZUREAD: true
       ARM_STORAGE_USE_AZUREAD: true
-      ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
     permissions:
       id-token: write
       contents: read
