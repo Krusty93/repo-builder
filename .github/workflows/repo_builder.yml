@@ -38,6 +38,7 @@ jobs:
     name: 'Repo setup'
     runs-on: ubuntu-20.04
     # needs: [builder]
+    environment: dev
     env:
       ARM_USE_OIDC: true
       ARM_USE_AZUREAD: true
